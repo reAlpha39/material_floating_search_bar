@@ -245,7 +245,7 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
     curve: Curves.easeInOutCubic,
   );
 
-  late final TextEditingController _input = TextEditingController()
+  late final TextEditingController _input = widget.textEditingController
     ..addListener(() {
       if (_input.text != queryNotifer.value) {
         queryNotifer.value = _input.text;
@@ -621,7 +621,7 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
         onKeyEvent: widget.onKeyEvent,
         child: IntrinsicWidth(
           child: TextField(
-            controller: widget.textEditingController,
+            controller: _input,
             showCursor: widget.showCursor,
             scrollPadding: EdgeInsets.zero,
             scrollPhysics: const NeverScrollableScrollPhysics(),
