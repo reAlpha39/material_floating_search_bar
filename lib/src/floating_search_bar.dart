@@ -9,7 +9,6 @@ import '../material_floating_search_bar_2.dart';
 
 import 'floating_search_bar_dismissable.dart';
 import 'search_bar_style.dart';
-import 'text_controller.dart';
 import 'util/util.dart';
 import 'widgets/widgets.dart';
 
@@ -28,6 +27,8 @@ class FloatingSearchBar extends ImplicitlyAnimatedWidget {
     Key? key,
     Duration implicitDuration = const Duration(milliseconds: 600),
     Curve implicitCurve = Curves.linear,
+    required this.textEditingController,
+    required this.focusNode,
     this.body,
     this.accentColor,
     this.backgroundColor,
@@ -94,6 +95,12 @@ class FloatingSearchBar extends ImplicitlyAnimatedWidget {
   ///
   /// Defaults to the themes accent color if not specified.
   final Color? accentColor;
+
+  /// text field controller
+  final TextEditingController textEditingController;
+
+  /// focus node for text field
+  final FocusNode focusNode;
 
   /// The color of the card.
   ///
@@ -761,6 +768,8 @@ class FloatingSearchBarState extends ImplicitlyAnimatedWidgetState<
       titleStyle: widget.queryStyle,
       shadowColor: style.shadowColor,
       onKeyEvent: widget.onKeyEvent,
+      focusNode: widget.focusNode,
+      textEditingController: widget.textEditingController,
     );
 
     return SizedBox.expand(

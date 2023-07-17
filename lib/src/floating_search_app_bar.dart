@@ -17,6 +17,8 @@ class FloatingSearchAppBar extends ImplicitlyAnimatedWidget {
     Duration implicitDuration = const Duration(milliseconds: 500),
     Curve implicitCurve = Curves.linear,
     required this.body,
+    required this.textEditingController,
+    required this.focusNode,
     this.accentColor,
     this.color,
     this.colorOnScroll,
@@ -56,6 +58,12 @@ class FloatingSearchAppBar extends ImplicitlyAnimatedWidget {
     this.onKeyEvent,
   })  : assert(progress == null || (progress is num || progress is bool)),
         super(key, implicitDuration, implicitCurve);
+
+  /// text field controller
+  final TextEditingController textEditingController;
+
+  /// The focus node of the input field
+  final FocusNode focusNode;
 
   /// to show the cursor or not
   final bool showCursor;
@@ -229,7 +237,7 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
     curve: Curves.easeInOutCubic,
   );
 
-  late final TextController _input = TextController()
+  late final TextEditingController _input = TextEditingController()
     ..addListener(() {
       if (_input.text != queryNotifer.value) {
         queryNotifer.value = _input.text;
@@ -320,7 +328,7 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
     }
   }
 
-  bool get hasFocus => _input.hasFocus;
+  bool get hasFocus => widget.focusNode.hasFocus;
   set hasFocus(bool value) => value ? focus() : unfocus();
 
   String get query => _input.text;
@@ -331,7 +339,7 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
     super.initState();
     if (isAlwaysOpened) {
       _isOpen = true;
-      postFrame(_input.requestFocus);
+      postFrame(widget.focusNode.requestFocus);
     }
 
     _assignController();
@@ -365,12 +373,14 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
 
   void focus() {
     _wasUnfocusedOnScroll = false;
-    _input.requestFocus();
+    widget.focusNode.requestFocus();
   }
 
   void unfocus() {
     _wasUnfocusedOnScroll = false;
-    _input.clearFocus();
+    widget.focusNode.unfocus(
+      disposition: UnfocusDisposition.previouslyFocusedChild,
+    );
   }
 
   void clear() => _input.clear();
@@ -488,7 +498,8 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
       onTap: () {
         if (isOpen) {
           hasFocus = !hasFocus;
-          _input.moveCursorToEnd();
+          widget.textEditingController.selection = TextSelection.collapsed(
+              offset: widget.textEditingController.text.length);
         } else if (!isAppBar) {
           isOpen = true;
         }
@@ -606,7 +617,7 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
             showCursor: widget.showCursor,
             scrollPadding: EdgeInsets.zero,
             scrollPhysics: const NeverScrollableScrollPhysics(),
-            focusNode: _input.node,
+            focusNode: widget.focusNode,
             autocorrect: widget.autocorrect,
             contextMenuBuilder: widget.contextMenuBuilder,
             cursorColor: style.accentColor,
