@@ -19,6 +19,7 @@ class FloatingSearchAppBar extends ImplicitlyAnimatedWidget {
     required this.body,
     required this.textEditingController,
     required this.focusNode,
+    this.manualUpdateQuery,
     this.readOnly = false,
     this.accentColor,
     this.color,
@@ -65,6 +66,9 @@ class FloatingSearchAppBar extends ImplicitlyAnimatedWidget {
 
   /// The focus node of the input field
   final FocusNode focusNode;
+
+  /// manual update query
+  final Function(String)? manualUpdateQuery;
 
   /// enables or disables the search bar
   final bool readOnly;
@@ -617,7 +621,7 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
         onKeyEvent: widget.onKeyEvent,
         child: IntrinsicWidth(
           child: TextField(
-            controller: _input,
+            controller: widget.textEditingController,
             showCursor: widget.showCursor,
             scrollPadding: EdgeInsets.zero,
             scrollPhysics: const NeverScrollableScrollPhysics(),
