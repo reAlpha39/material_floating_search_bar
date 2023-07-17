@@ -19,6 +19,7 @@ class FloatingSearchAppBar extends ImplicitlyAnimatedWidget {
     required this.body,
     required this.textEditingController,
     required this.focusNode,
+    this.readOnly = false,
     this.accentColor,
     this.color,
     this.colorOnScroll,
@@ -64,6 +65,9 @@ class FloatingSearchAppBar extends ImplicitlyAnimatedWidget {
 
   /// The focus node of the input field
   final FocusNode focusNode;
+
+  /// enables or disables the search bar
+  final bool readOnly;
 
   /// to show the cursor or not
   final bool showCursor;

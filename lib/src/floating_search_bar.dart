@@ -29,6 +29,7 @@ class FloatingSearchBar extends ImplicitlyAnimatedWidget {
     Curve implicitCurve = Curves.linear,
     required this.textEditingController,
     required this.focusNode,
+    this.readOnly = false,
     this.body,
     this.accentColor,
     this.backgroundColor,
@@ -101,6 +102,9 @@ class FloatingSearchBar extends ImplicitlyAnimatedWidget {
 
   /// focus node for text field
   final FocusNode focusNode;
+
+  /// enables or disables text field
+  final bool readOnly;
 
   /// The color of the card.
   ///
@@ -770,6 +774,7 @@ class FloatingSearchBarState extends ImplicitlyAnimatedWidgetState<
       onKeyEvent: widget.onKeyEvent,
       focusNode: widget.focusNode,
       textEditingController: widget.textEditingController,
+      readOnly: widget.readOnly,
     );
 
     return SizedBox.expand(
