@@ -245,18 +245,18 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
     curve: Curves.easeInOutCubic,
   );
 
-  late final TextEditingController _input = widget.textEditingController
-    ..addListener(() {
-      if (_input.text != queryNotifer.value) {
-        queryNotifer.value = _input.text;
+  // late final TextEditingController _input = widget.textEditingController
+  //   ..addListener(() {
+  //     if (widget.textEditingController.text != queryNotifer.value) {
+  //       queryNotifer.value = widget.textEditingController.text;
 
-        _handler.post(
-          // Do not add a delay when the query is empty.
-          _input.text.isEmpty ? Duration.zero : widget.debounceDelay,
-          () => widget.onQueryChanged?.call(_input.text),
-        );
-      }
-    });
+  //       _handler.post(
+  //         // Do not add a delay when the query is empty.
+  //         widget.textEditingController.text.isEmpty ? Duration.zero : widget.debounceDelay,
+  //         () => widget.onQueryChanged?.call(widget.textEditingController.text),
+  //       );
+  //     }
+  //   });
 
   bool _wasUnfocusedOnScroll = false;
 
@@ -339,8 +339,8 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
   bool get hasFocus => widget.focusNode.hasFocus;
   set hasFocus(bool value) => value ? focus() : unfocus();
 
-  String get query => _input.text;
-  set query(String value) => _input.text = value;
+  String get query => widget.textEditingController.text;
+  set query(String value) => widget.textEditingController.text = value;
 
   @override
   void initState() {
@@ -391,7 +391,7 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
     );
   }
 
-  void clear() => _input.clear();
+  void clear() => widget.textEditingController.clear();
 
   void _assignController() => widget.controller?._appBarState = this;
 
@@ -621,7 +621,7 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
         onKeyEvent: widget.onKeyEvent,
         child: IntrinsicWidth(
           child: TextField(
-            controller: _input,
+            controller: widget.textEditingController,
             showCursor: widget.showCursor,
             scrollPadding: EdgeInsets.zero,
             scrollPhysics: const NeverScrollableScrollPhysics(),

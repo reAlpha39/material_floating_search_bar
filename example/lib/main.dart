@@ -107,6 +107,8 @@ class _HomeState extends State<Home> {
     return Consumer<SearchModel>(
       builder: (BuildContext context, SearchModel model, _) =>
           FloatingSearchBar(
+        textEditingController: TextEditingController(),
+        focusNode: FocusNode(),
         automaticallyImplyBackButton: false,
         controller: controller,
         hint: 'חיפוש...',
@@ -366,6 +368,8 @@ class _SearchBarState extends State<SearchBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FloatingSearchBar(
+        textEditingController: TextEditingController(),
+        focusNode: FocusNode(),
         contextMenuBuilder:
             (BuildContext context, EditableTextState editableTextState) {
           final List<ContextMenuButtonItem> buttonItems =
@@ -415,6 +419,8 @@ class FloatingSearchAppBarExample extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingSearchAppBar(
+      textEditingController: TextEditingController(),
+      focusNode: FocusNode(),
       title: const Text('Title'),
       transitionDuration: const Duration(milliseconds: 800),
       color: Colors.greenAccent.shade100,
